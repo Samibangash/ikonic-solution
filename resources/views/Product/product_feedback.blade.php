@@ -145,13 +145,13 @@
                                                                          style="width: 60px; height: 60px; margin-right: 12px;">
                                                                     <div>
                                                                         <div class="fw-bold">
-                                                                            {{ $data->getUser->name ?? '' }}
+                                                                            {{ $comment->getUser->name ?? '' }}
                                                                         </div>
                                                                         <div class="text-muted small">
-                                                                            {{ optional($data->created_at)->isYesterday() ? 'Yesterday at ' . optional($data->created_at)->format('g:i A') : optional($data->created_at)->format('M j, Y \a\t g:i A') }}
+                                                                            {{ optional($comment->created_at)->isYesterday() ? 'Yesterday at ' . optional($comment->created_at)->format('g:i A') : optional($comment->created_at)->format('M j, Y \a\t g:i A') }}
                                                                         </div>
                                                                         <p>
-                                                                            {{ $data->comment ?? '' }}
+                                                                            {{ $comment->comment ?? '' }}
                                                                         </p>
 
 

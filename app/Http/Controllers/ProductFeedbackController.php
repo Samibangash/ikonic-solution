@@ -6,7 +6,10 @@ use App\Models\FeedbackVote;
 use App\Models\ProductFeedback;
 use App\Http\Requests\StoreProductFeedbackRequest;
 use App\Http\Requests\UpdateProductFeedbackRequest;
+use App\Models\User;
+use App\Notifications\Email;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class ProductFeedbackController extends Controller
 {
@@ -61,6 +64,9 @@ class ProductFeedbackController extends Controller
                 $feedback_vote->vote  = 0;
             }
             $feedback_vote->save();
+            $user   = User::find(Auth::user()->id);
+
+            Notification::send($user, new Email());
             return back();
         } catch (\Exception $e) {
             // Log or print the exception message for debugging

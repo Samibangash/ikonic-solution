@@ -8,12 +8,14 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\ProductFeedback;
 use App\Models\User;
+use App\Notifications\Email;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -54,6 +56,9 @@ class ProductController extends Controller
             $product_feedback->category_id      =  $request->category_id;
             $product_feedback->description      =  $request->description;
             $product_feedback->save();
+            $user   = User::find(Auth::user()->id);
+
+            Notification::send($user, new Email());
             DB::commit();
             return back()->with(['type' => 'success', 'title' => 'success', 'message' => 'Add Successfully']);
         }
@@ -81,6 +86,9 @@ class ProductController extends Controller
             $comment->comment                   = $request->comment;
             $comment->date                      = Carbon::now()->format('Y-m-d');
             $comment->save();
+            $user   = User::find(Auth::user()->id);
+
+            Notification::send($user, new Email());
             DB::commit();
             return back()->with(['type' => 'success', 'title' => 'success', 'message' => 'Add Successfully']);
         }
